@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface Space {
   _id: string;
@@ -23,7 +23,15 @@ interface SpaceCardProps {
 
 export default function SpaceCard({ space }: SpaceCardProps) {
   const router = useRouter();
-  const [isAuthenticated] = useState(() => !!localStorage.getItem('token'));
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    // Check if user is authenticated by making a request to /api/auth/me
+    fetch('/api/auth/me')
+      .then(res => res.json())
+      .then(data => setIsAuthenticated(!!data.user))
+      .catch(() => setIsAuthenticated(false));
+  }, []);
 
   const handleBookClick = (e: React.MouseEvent) => {
     e.preventDefault();

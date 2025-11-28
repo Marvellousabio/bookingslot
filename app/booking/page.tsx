@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import Calendar from 'react-calendar';
 
 interface Space {
@@ -16,6 +17,7 @@ interface Space {
 }
 
 export default function Booking() {
+  const router = useRouter();
   const [spaces, setSpaces] = useState<Space[]>([]);
   const [typeFilter, setTypeFilter] = useState('');
   const [locationFilter, setLocationFilter] = useState('');
@@ -78,32 +80,22 @@ export default function Booking() {
     });
   };
 
-  const handleBooking = async () => {
+  const handleBooking = () => {
     if (!selectedSpace || selectedDates.length !== 2) return;
 
-    try {
-      const res = await fetch('/api/bookings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          spaceId: selectedSpace._id,
-          startDate: selectedDates[0].toISOString(),
-          endDate: selectedDates[1].toISOString(),
-        }),
-      });
+    const totalHours = Math.ceil((selectedDates[1].getTime() - selectedDates[0].getTime()) / (1000 * 60 * 60));
 
-      const data = await res.json();
-      if (res.ok) {
-        alert('Booking successful!');
-        setSelectedSpace(null);
-        setShowCalendar(false);
-        setSelectedDates([]);
-      } else {
-        setBookingError(data.error);
-      }
-    } catch (err) {
-      setBookingError('Something went wrong');
-    }
+    // Redirect to payment page with booking details
+    const params = new URLSearchParams({
+      spaceId: selectedSpace._id,
+      spaceName: selectedSpace.name,
+      startDate: selectedDates[0].toISOString(),
+      endDate: selectedDates[1].toISOString(),
+      totalHours: totalHours.toString(),
+      pricePerHour: selectedSpace.pricePerHour.toString(),
+    });
+
+    router.push(`/payment?${params.toString()}`);
   };
 
   return (

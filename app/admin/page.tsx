@@ -35,7 +35,8 @@ export default function AdminDashboard() {
   };
 
   useEffect(() => {
-    fetchSpaces(); // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchSpaces();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {

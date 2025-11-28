@@ -42,11 +42,12 @@ export default function Navbar() {
         {/* Desktop Menu */}
         <div className="hidden md:flex space-x-4">
           <Link href="/" className="hover:underline">Home</Link>
+          <Link href="/spaces" className="hover:underline">All Spaces</Link>
           {user && <Link href="/booking" className="hover:underline">Book</Link>}
           {user && <Link href="/dashboard" className="hover:underline">Dashboard</Link>}
           {user?.role === 'admin' && <Link href="/admin" className="hover:underline">Admin</Link>}
           {user ? (
-            <Link href="/api/auth/logout" className="hover:underline">Logout</Link>
+            <Link href="/api/auth/logout" className="hover:underline">Sign Out</Link>
           ) : (
             <Link href="/signin" className="hover:underline">Sign In</Link>
           )}
@@ -67,11 +68,12 @@ export default function Navbar() {
         <div className="md:hidden bg-blue-600 text-white shadow-md">
           <div className="px-4 py-2 space-y-2">
             <Link href="/" className="block hover:underline" onClick={toggleMenu}>Home</Link>
+            <Link href="/spaces" className="block hover:underline" onClick={toggleMenu}>All Spaces</Link>
             {user && <Link href="/booking" className="block hover:underline" onClick={toggleMenu}>Book</Link>}
             {user && <Link href="/dashboard" className="block hover:underline" onClick={toggleMenu}>Dashboard</Link>}
             {user?.role === 'admin' && <Link href="/admin" className="block hover:underline" onClick={toggleMenu}>Admin</Link>}
             {user ? (
-              <Link href="/api/auth/logout" className="block hover:underline" onClick={toggleMenu}>Logout</Link>
+              <Link href="/api/auth/logout" className="block hover:underline" onClick={toggleMenu}>Sign Out</Link>
             ) : (
               <Link href="/signin" className="block hover:underline" onClick={toggleMenu}>Sign In</Link>
             )}

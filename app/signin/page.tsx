@@ -26,7 +26,7 @@ export default function Signin() {
       const data = await res.json();
 
       if (res.ok) {
-        router.push('/booking');
+        router.push('/spaces');
       } else {
         setError(data.error);
       }

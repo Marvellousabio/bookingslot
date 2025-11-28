@@ -68,7 +68,7 @@ export default function SpaceDetails() {
               </div>
             </div>
             <div>
-              <h1 className="text-3xl font-bold mb-4">{space.name}</h1>
+              <h1 className="text-3xl font-bold mb-4 text-black/70">{space.name}</h1>
               <p className="text-gray-600 mb-2">Type: {space.type}</p>
               <p className="text-gray-600 mb-2">Location: {space.location}</p>
               <p className="text-gray-600 mb-2">Capacity: {space.capacity}</p>
