@@ -2,6 +2,11 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import Booking from '@/lib/models/Booking';
 
+interface BookingPartial {
+  startDate: Date;
+  endDate: Date;
+}
+
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   try {
     const { id } = params;
@@ -10,10 +15,10 @@ export async function GET(request: Request, { params }: { params: { id: string }
     const bookings = await Booking.find({
       space: id,
       status: { $in: ['pending', 'confirmed'] }
-    }).select('startDate endDate');
+    }).select('startDate endDate') as BookingPartial[];
 
-    const bookedDates = [];
-    bookings.forEach(booking => {
+    const bookedDates: Date[] = [];
+    bookings.forEach((booking) => {
       const start = new Date(booking.startDate);
       const end = new Date(booking.endDate);
       for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
