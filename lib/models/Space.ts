@@ -39,3 +39,5 @@ const SpaceSchema = new mongoose.Schema({
 });
 
 export default mongoose.models.Space || mongoose.model('Space', SpaceSchema);
+
+
