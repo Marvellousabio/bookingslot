@@ -7,9 +7,9 @@ interface BookingPartial {
   endDate: Date;
 }
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     await dbConnect();
 
     const bookings = await Booking.find({

@@ -165,7 +165,7 @@ export default function Booking() {
                 onClickDay={handleDateClick}
                 tileDisabled={({ date }) => isDateBooked(date)}
                 selectRange={true}
-                value={selectedDates.length === 2 ? selectedDates : null}
+                value={selectedDates.length === 2 ? selectedDates as [Date, Date] : null}
               />
             </div>
             <div className="flex-1">
