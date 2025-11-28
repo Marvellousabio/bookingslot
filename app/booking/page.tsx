@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useMemo } from 'react';
 import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
 
 interface Space {
   _id: string;
@@ -113,24 +112,33 @@ export default function Booking() {
 
       {/* Filters */}
       <div className="mb-8 flex flex-wrap gap-4">
-        <select
-          value={typeFilter}
-          onChange={(e) => setTypeFilter(e.target.value)}
-          className="border border-gray-300 rounded px-4 py-2"
-        >
-          <option value="">All Types</option>
-          <option value="coworking">Coworking</option>
-          <option value="meeting room">Meeting Room</option>
-          <option value="event venue">Event Venue</option>
-          <option value="conference hall">Conference Hall</option>
-        </select>
-        <input
-          type="text"
-          placeholder="Filter by location"
-          value={locationFilter}
-          onChange={(e) => setLocationFilter(e.target.value)}
-          className="border border-gray-300 rounded px-4 py-2"
-        />
+        <div>
+          <label htmlFor="type-filter" className="block text-sm font-medium mb-1">Space Type</label>
+          <select
+            id="type-filter"
+            value={typeFilter}
+            onChange={(e) => setTypeFilter(e.target.value)}
+            className="border border-gray-300 rounded px-4 py-2"
+            title="Filter spaces by type"
+          >
+            <option value="">All Types</option>
+            <option value="coworking">Coworking</option>
+            <option value="meeting room">Meeting Room</option>
+            <option value="event venue">Event Venue</option>
+            <option value="conference hall">Conference Hall</option>
+          </select>
+        </div>
+        <div>
+          <label htmlFor="location-filter" className="block text-sm font-medium mb-1">Location</label>
+          <input
+            id="location-filter"
+            type="text"
+            placeholder="Filter by location"
+            value={locationFilter}
+            onChange={(e) => setLocationFilter(e.target.value)}
+            className="border border-gray-300 rounded px-4 py-2"
+          />
+        </div>
       </div>
 
       {/* Space List */}

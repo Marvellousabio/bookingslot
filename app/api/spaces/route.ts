@@ -12,3 +12,16 @@ export async function GET() {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
+
+export async function POST(request: Request) {
+  try {
+    await dbConnect();
+    const body = await request.json();
+    const space = new Space(body);
+    await space.save();
+    return NextResponse.json(space, { status: 201 });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}

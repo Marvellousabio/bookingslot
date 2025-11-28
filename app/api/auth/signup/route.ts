@@ -22,9 +22,9 @@ export async function POST(request: NextRequest) {
     const user = new User({ name, email, password: hashedPassword });
     await user.save();
 
-    const token = generateToken({ userId: user._id, email: user.email });
+    const token = generateToken({ userId: user._id, email: user.email, role: user.role });
 
-    const response = NextResponse.json({ message: 'User created successfully', user: { id: user._id, name, email } });
+    const response = NextResponse.json({ message: 'User created successfully', user: { id: user._id, name, email, role: user.role } });
     response.cookies.set('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 60 * 60 * 24 * 7 });
 
     return response;

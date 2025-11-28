@@ -23,9 +23,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
 
-    const token = generateToken({ userId: user._id, email: user.email });
+    const token = generateToken({ userId: user._id, email: user.email, role: user.role });
 
-    const response = NextResponse.json({ message: 'Login successful', user: { id: user._id, name: user.name, email } });
+    const response = NextResponse.json({ message: 'Login successful', user: { id: user._id, name: user.name, email, role: user.role } });
     response.cookies.set('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 60 * 60 * 24 * 7 });
 
     return response;

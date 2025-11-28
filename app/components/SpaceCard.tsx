@@ -38,7 +38,7 @@ export default function SpaceCard({ space }: SpaceCardProps) {
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
       <img src={space.images[0] || '/placeholder.jpg'} alt={space.name} className="w-full h-48 object-cover" />
       <div className="p-6">
-        <h3 className="text-xl font-semibold mb-2">{space.name}</h3>
+        <h3 className="text-xl font-semibold mb-2 text-black/70">{space.name}</h3>
         <p className="text-gray-600 mb-2">{space.type} • {space.location}</p>
         <p className="text-gray-600 mb-2">Capacity: {space.capacity}</p>
         <p className="text-gray-600 mb-2">Amenities: {space.amenities.join(', ')}</p>
