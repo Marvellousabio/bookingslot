@@ -71,7 +71,6 @@ export async function POST() {
       name: 'Admin User',
       email: 'admin@example.com',
       password: hashedPassword,
-      role: 'admin',
     });
     await adminUser.save();
 
@@ -81,7 +80,6 @@ export async function POST() {
       name: 'Regular User',
       email: 'user@example.com',
       password: userPassword,
-      role: 'user',
     });
     await regularUser.save();
 

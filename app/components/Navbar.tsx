@@ -3,18 +3,12 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-}
+import { useAuth } from '../contexts/AuthContext';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,12 +16,6 @@ export default function Navbar() {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-
-    // Check if user is logged in
-    fetch('/api/auth/me')
-      .then(res => res.json())
-      .then(data => setUser(data.user))
-      .catch(() => setUser(null));
   }, []);
 
   const toggleMenu = () => {
@@ -45,9 +33,8 @@ export default function Navbar() {
           <Link href="/spaces" className="hover:underline">All Spaces</Link>
           {user && <Link href="/booking" className="hover:underline">Book</Link>}
           {user && <Link href="/dashboard" className="hover:underline">Dashboard</Link>}
-          {user?.role === 'admin' && <Link href="/admin" className="hover:underline">Admin</Link>}
           {user ? (
-            <Link href="/api/auth/logout" className="hover:underline">Sign Out</Link>
+            <button onClick={logout} className="hover:underline">Sign Out</button>
           ) : (
             <Link href="/signin" className="hover:underline">Sign In</Link>
           )}
@@ -71,9 +58,8 @@ export default function Navbar() {
             <Link href="/spaces" className="block hover:underline" onClick={toggleMenu}>All Spaces</Link>
             {user && <Link href="/booking" className="block hover:underline" onClick={toggleMenu}>Book</Link>}
             {user && <Link href="/dashboard" className="block hover:underline" onClick={toggleMenu}>Dashboard</Link>}
-            {user?.role === 'admin' && <Link href="/admin" className="block hover:underline" onClick={toggleMenu}>Admin</Link>}
             {user ? (
-              <Link href="/api/auth/logout" className="block hover:underline" onClick={toggleMenu}>Sign Out</Link>
+              <button onClick={() => { logout(); toggleMenu(); }} className="block hover:underline text-left">Sign Out</button>
             ) : (
               <Link href="/signin" className="block hover:underline" onClick={toggleMenu}>Sign In</Link>
             )}

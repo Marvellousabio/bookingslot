@@ -40,7 +40,7 @@ export default function SpaceDetails() {
 
   const handleBookClick = () => {
     if (!isAuthenticated) {
-      router.push('/signin');
+      router.push('/payment');
     } else {
       router.push(`/booking?space=${space?._id}`);
     }

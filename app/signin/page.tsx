@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function Signin() {
   const [email, setEmail] = useState('');
@@ -10,6 +11,7 @@ export default function Signin() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,18 +19,11 @@ export default function Signin() {
     setError('');
 
     try {
-      const res = await fetch('/api/auth/signin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
+      const success = await login(email, password);
+      if (success) {
         router.push('/spaces');
       } else {
-        setError(data.error);
+        setError('Invalid email or password');
       }
     } catch (err) {
       setError('Something went wrong');

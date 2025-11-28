@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function Signup() {
   const [name, setName] = useState('');
@@ -11,6 +12,7 @@ export default function Signup() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { checkAuth } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,6 +29,7 @@ export default function Signup() {
       const data = await res.json();
 
       if (res.ok) {
+        await checkAuth(); // Refresh user state
         router.push('/spaces');
       } else {
         setError(data.error);

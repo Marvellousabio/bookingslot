@@ -14,14 +14,11 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/signin', request.url));
   }
 
-  // Check for admin routes
-  if (request.nextUrl.pathname.startsWith('/admin') && decoded.role !== 'admin') {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
-  }
+  // Admin routes are currently disabled - all users have same access
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/booking/:path*', '/dashboard/:path*', '/admin/:path*', '/api/bookings/:path*'],
+  matcher: ['/', '/booking/:path*', '/dashboard/:path*', '/admin/:path*', '/spaces/:path*', '/api/bookings/:path*'],
 };
