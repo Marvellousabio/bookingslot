@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import Hero from './components/Hero';
 import Tabs from './components/Tabs';
 import SpaceCard from './components/SpaceCard';
@@ -19,24 +19,20 @@ interface Space {
 
 export default function Home() {
   const [spaces, setSpaces] = useState<Space[]>([]);
-  const [filteredSpaces, setFilteredSpaces] = useState<Space[]>([]);
   const [activeTab, setActiveTab] = useState('all');
 
   useEffect(() => {
     fetch('/api/spaces')
       .then(res => res.json())
-      .then(data => {
-        setSpaces(data);
-        setFilteredSpaces(data);
-      })
+      .then(data => setSpaces(data))
       .catch(err => console.error(err));
   }, []);
 
-  useEffect(() => {
+  const filteredSpaces = useMemo(() => {
     if (activeTab === 'all') {
-      setFilteredSpaces(spaces);
+      return spaces;
     } else {
-      setFilteredSpaces(spaces.filter(space => space.type === activeTab));
+      return spaces.filter(space => space.type === activeTab);
     }
   }, [activeTab, spaces]);
 

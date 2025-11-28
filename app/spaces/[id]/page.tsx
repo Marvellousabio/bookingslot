@@ -21,12 +21,7 @@ export default function SpaceDetails() {
   const router = useRouter();
   const [space, setSpace] = useState<Space | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    setIsAuthenticated(!!token);
-  }, []);
+  const [isAuthenticated] = useState(() => !!localStorage.getItem('token'));
 
   useEffect(() => {
     if (params.id) {

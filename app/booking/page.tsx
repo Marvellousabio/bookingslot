@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
@@ -18,7 +18,6 @@ interface Space {
 
 export default function Booking() {
   const [spaces, setSpaces] = useState<Space[]>([]);
-  const [filteredSpaces, setFilteredSpaces] = useState<Space[]>([]);
   const [typeFilter, setTypeFilter] = useState('');
   const [locationFilter, setLocationFilter] = useState('');
   const [selectedSpace, setSelectedSpace] = useState<Space | null>(null);
@@ -30,14 +29,11 @@ export default function Booking() {
   useEffect(() => {
     fetch('/api/spaces')
       .then(res => res.json())
-      .then(data => {
-        setSpaces(data);
-        setFilteredSpaces(data);
-      })
+      .then(data => setSpaces(data))
       .catch(err => console.error(err));
   }, []);
 
-  useEffect(() => {
+  const filteredSpaces = useMemo(() => {
     let filtered = spaces;
     if (typeFilter) {
       filtered = filtered.filter(space => space.type === typeFilter);
@@ -45,7 +41,7 @@ export default function Booking() {
     if (locationFilter) {
       filtered = filtered.filter(space => space.location.toLowerCase().includes(locationFilter.toLowerCase()));
     }
-    setFilteredSpaces(filtered);
+    return filtered;
   }, [spaces, typeFilter, locationFilter]);
 
   const handleSpaceSelect = async (space: Space) => {

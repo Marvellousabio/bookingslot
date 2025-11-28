@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface Space {
   _id: string;
@@ -22,13 +23,7 @@ interface SpaceCardProps {
 
 export default function SpaceCard({ space }: SpaceCardProps) {
   const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    // Check if user is authenticated
-    const token = localStorage.getItem('token');
-    setIsAuthenticated(!!token);
-  }, []);
+  const [isAuthenticated] = useState(() => !!localStorage.getItem('token'));
 
   const handleBookClick = (e: React.MouseEvent) => {
     e.preventDefault();
