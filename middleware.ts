@@ -6,12 +6,12 @@ export function middleware(request: NextRequest) {
   const token = request.cookies.get('token')?.value;
 
   if (!token) {
-    return NextResponse.redirect(new URL('/signin', request.url));
+    return NextResponse.redirect(new URL('/spaces', request.url));
   }
 
   const decoded = verifyToken(token);
   if (!decoded) {
-    return NextResponse.redirect(new URL('/signin', request.url));
+    return NextResponse.redirect(new URL('/spaces', request.url));
   }
 
   // Admin routes are currently disabled - all users have same access
